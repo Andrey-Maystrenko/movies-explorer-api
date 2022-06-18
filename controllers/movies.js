@@ -23,7 +23,7 @@ const deleteMovie = async (req, res, next) => {
       next(new ForbiddenError('Нельзя удалять чужие карточки'));
       return;
     }
-    const deletedMovie = await Movie.findByIdAndRemove(req.params.cardId);
+    const deletedMovie = await Movie.findByIdAndRemove(req.params.movieId);
     res.status(200).send(deletedMovie);
   } catch (err) {
     if (err.kind === 'ObjectId') {
