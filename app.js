@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const { PORT = 4001 } = process.env;
 const { errors } = require('celebrate');
@@ -33,7 +34,7 @@ app.use(limiter);
 app.use(express.json());
 
 app.use(cors({
-  // origin: 'https://mesto-koga-717.nomoredomains.xyz',
+  // origin: 'https://diploma-koga-717.nomoredomains.xyz ',
   origin: 'http://localhost:3001',
   credentials: true,
 }));

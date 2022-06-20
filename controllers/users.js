@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../middlewares/auth');
+// const { JWT_SECRET } = require('../middlewares/auth');
+const { NODE_ENV, JWT_SECRET } = process.env;
 const User = require('../models/User');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
@@ -53,7 +54,8 @@ const login = async (req, res, next) => {
     }
     const token = jwt.sign(
       { _id: user._id },
-      JWT_SECRET,
+      // JWT_SECRET,
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
       { expiresIn: '7d' },
     );
     res.send({ token });
