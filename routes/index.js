@@ -6,9 +6,15 @@ const { usersRoutes } = require('./users');
 
 const { moviesRoutes } = require('./movies');
 
-routes.use('/users', usersRoutes);
+const { signingRoutes } = require('./signing');
 
-routes.use('/movies', moviesRoutes);
+const { auth } = require('../middlewares/auth');
+
+routes.use('/users', auth, usersRoutes);
+
+routes.use('/movies', auth, moviesRoutes);
+
+routes.use(signingRoutes);
 
 module.exports = {
   routes,

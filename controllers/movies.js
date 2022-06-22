@@ -2,6 +2,7 @@ const Movie = require('../models/Movie');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ForbiddenError = require('../errors/forbidden-error');
+const { messages } = require('../errors/messages');
 
 const getMovies = async (req, res, next) => {
   try {
@@ -16,18 +17,18 @@ const deleteMovie = async (req, res, next) => {
   try {
     const MovieToDelete = await Movie.findById(req.params.movieId);
     if (!MovieToDelete) {
-      next(new NotFoundError('Карточки с таким id не найдено'));
+      next(new NotFoundError(messages.noSuchMovie));
       return;
     }
     if (req.user._id !== MovieToDelete.owner.toString()) {
-      next(new ForbiddenError('Нельзя удалять чужие карточки'));
+      next(new ForbiddenError(messages.prohibitedToDelete));
       return;
     }
     const deletedMovie = await Movie.findByIdAndRemove(req.params.movieId);
     res.status(200).send(deletedMovie);
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      next(new BadRequestError('Некорректный формат id'));
+      next(new BadRequestError(messages.incorrectId));
     } else { next(err); }
   }
 };
@@ -51,7 +52,7 @@ const createMovie = async (req, res, next) => {
     res.status(201).send(await newMovie.save());
   } catch (err) {
     if (err.name === 'ValidationError') {
-      next(new BadRequestError('Введены некорректные данные'));
+      next(new BadRequestError(messages.incorrectData));
     } else { next(err); }
   }
 };

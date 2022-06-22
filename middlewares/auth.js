@@ -2,14 +2,16 @@
 const jwt = require('jsonwebtoken');
 
 const UnauthorizedError = require('../errors/unauthorized-error');
+const { messages } = require('../errors/messages');
 
 // const { JWT_SECRET = 'some-secret-key' } = process.env;
 const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET_DEV } = require('./config');
 
 const auth = async (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
-    next(new UnauthorizedError('Нет доступа'));
+    next(new UnauthorizedError(messages.wrongLoginOrPassword));
     return;
   }
   // const token = authorization;
@@ -17,9 +19,9 @@ const auth = async (req, res, next) => {
   let payload;
   try {
     // payload = await jwt.verify(token, JWT_SECRET);
-    payload = await jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+    payload = await jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV);
   } catch (err) {
-    next(new UnauthorizedError('Нет доступа'));
+    next(new UnauthorizedError(messages.wrongLoginOrPassword));
     return;
   }
   req.user = payload;
