@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 // const { JWT_SECRET } = require('../middlewares/auth');
 const { NODE_ENV, JWT_SECRET } = process.env;
-console.log(process.env);
 const { JWT_SECRET_DEV } = require('../middlewares/config');
 const User = require('../models/User');
 const NotFoundError = require('../errors/not-found-error');
@@ -19,10 +18,10 @@ const createUser = async (req, res, next) => {
     password,
     name,
   } = req.body;
-  if (!email || !password) {
-    next(new BadRequestError(messages.wrongLoginOrPassword));
-    return;
-  }
+  // if (!email || !password) {
+  //   next(new BadRequestError(messages.wrongLoginOrPassword));
+  //   return;
+  // }
   const hash = await bcrypt.hash(password, 10);
   try {
     const newUser = await User.create({
@@ -31,7 +30,8 @@ const createUser = async (req, res, next) => {
       name,
     });
     const { password: removedPassword, ...user } = newUser.toObject();
-    res.status(201).send(user);
+    // res.status(201).send(user);
+    res.send(user);
   } catch (err) {
     if (err.name === 'ValidationError') {
       next(new BadRequestError(messages.incorrectData));
@@ -74,11 +74,9 @@ const userProfile = async (req, res, next) => {
       next(new NotFoundError(messages.noSuchUserId));
       return;
     }
-    res.status(200).send(user);
+    res.send(user);
   } catch (err) {
-    if (err.kind === 'ObjectId') {
-      next(new BadRequestError(messages.incorrectId));
-    } else { next(err); }
+    next(err);
   }
 };
 
@@ -100,7 +98,7 @@ const updateUserInfo = async (req, res, next) => {
       { email, name },
       { new: true, runValidators: true },
     );
-    res.status(200).send(updatedUser);
+    res.send(updatedUser);
   } catch (err) {
     if (err.name === 'ValidationError') {
       next(new BadRequestError(messages.incorrectData));

@@ -7,7 +7,7 @@ const { messages } = require('../errors/messages');
 const getMovies = async (req, res, next) => {
   try {
     const movie = await Movie.find({});
-    res.status(200).send(movie);
+    res.send(movie);
   } catch (err) {
     next(err);
   }
@@ -25,7 +25,7 @@ const deleteMovie = async (req, res, next) => {
       return;
     }
     const deletedMovie = await Movie.findByIdAndRemove(req.params.movieId);
-    res.status(200).send(deletedMovie);
+    res.send(deletedMovie);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       next(new BadRequestError(messages.incorrectId));
@@ -49,7 +49,7 @@ const createMovie = async (req, res, next) => {
       nameEN: req.body.nameEN,
       owner: req.user._id,
     });
-    res.status(201).send(await newMovie.save());
+    res.send(await newMovie.save());
   } catch (err) {
     if (err.name === 'ValidationError') {
       next(new BadRequestError(messages.incorrectData));
