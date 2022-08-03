@@ -115,6 +115,7 @@ module.exports = {
   updateUserInfo,
   userProfile,
 };
+
 // const getUsers = async (req, res, next) => {
 //   try {
 //     const users = await User.find({});

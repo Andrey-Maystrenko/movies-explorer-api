@@ -18,27 +18,16 @@ moviesRoutes.get('/', getMovies);
 moviesRoutes.post('/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
-    // country: Joi.string(),
     director: Joi.string().required(),
-    // director: Joi.string(),
     duration: Joi.number().required(),
-    // duration: Joi.number(),
-    // year: Joi.string().required(),
     year: Joi.number().required(),
     description: Joi.string().required(),
-    // description: Joi.string(),
     image: Joi.string().required().custom(validateURL),
-    // image: Joi.string(),
     trailerLink: Joi.string().required().custom(validateURL),
-    // trailerLink: Joi.string().required(),
     thumbnail: Joi.string().required().custom(validateURL),
-    // thumbnail: Joi.string().custom(validateURL),
     movieId: Joi.number().required(),
-    // movieId: Joi.number(),
     nameRU: Joi.string().required(),
-    // nameRU: Joi.string(),
     nameEN: Joi.string().required(),
-    // nameEN: Joi.string(),
 
     // image: Joi.string().required().regex(regexLink),
     // trailerLink: Joi.string().required().regex(regexLink),
@@ -48,9 +37,7 @@ moviesRoutes.post('/', celebrate({
 
 moviesRoutes.delete('/:movieId', celebrate({
   params: Joi.object().keys({
-    // movieId: Joi.string().hex().length(24),
-    movieId: Joi.string().hex(),
-    // movieId: Joi.number(),
+    movieId: Joi.string().hex().length(24),
   }),
 }), deleteMovie);
 

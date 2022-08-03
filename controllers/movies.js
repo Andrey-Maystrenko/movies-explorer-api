@@ -65,8 +65,6 @@ module.exports = {
   // getMovieById,
   getMovies,
   deleteMovie,
-  // likeCard,
-  // dislikeCard,
 };
 
 // const deletedCard = await Card.deleteOne({ _id: req.params.cardId });
