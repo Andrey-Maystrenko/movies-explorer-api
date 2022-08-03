@@ -17,6 +17,8 @@ const { DB_PATH_DEV } = require('./middlewares/config');
 
 const app = express();
 
+// app.use(cors());
+
 app.use(helmet());
 
 app.use(requestLogger); // подключаем логгер запросов
@@ -26,8 +28,8 @@ app.use(limiter);
 app.use(express.json());
 
 app.use(cors({
-  // origin: 'https://diploma-koga-717.nomoredomains.xyz ',
-  origin: 'http://localhost:3000',
+  origin: 'https://diploma-koga-717.nomoredomains.xyz ',
+  // origin: 'http://localhost:3000',
   credentials: true,
 }));
 

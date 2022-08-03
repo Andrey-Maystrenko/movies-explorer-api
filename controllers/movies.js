@@ -6,8 +6,8 @@ const { messages } = require('../errors/messages');
 
 const getMovies = async (req, res, next) => {
   try {
-    const movie = await Movie.find({});
-    res.send(movie);
+    const movies = await Movie.find({});
+    res.send(movies);
   } catch (err) {
     next(err);
   }
@@ -16,6 +16,7 @@ const getMovies = async (req, res, next) => {
 const deleteMovie = async (req, res, next) => {
   try {
     const MovieToDelete = await Movie.findById(req.params.movieId);
+    // console.log('_id', req.params.movieId);
     if (!MovieToDelete) {
       next(new NotFoundError(messages.noSuchMovie));
       return;
@@ -34,6 +35,7 @@ const deleteMovie = async (req, res, next) => {
 };
 
 const createMovie = async (req, res, next) => {
+  // console.log('req.user._id', req.user._id);
   try {
     const newMovie = new Movie({
       country: req.body.country,
@@ -48,6 +50,7 @@ const createMovie = async (req, res, next) => {
       nameRU: req.body.nameRU,
       nameEN: req.body.nameEN,
       owner: req.user._id,
+      // owner: '62ade918083eed6cd4864acf',
     });
     res.send(await newMovie.save());
   } catch (err) {
@@ -59,6 +62,7 @@ const createMovie = async (req, res, next) => {
 
 module.exports = {
   createMovie,
+  // getMovieById,
   getMovies,
   deleteMovie,
   // likeCard,

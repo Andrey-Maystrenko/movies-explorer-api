@@ -5,7 +5,10 @@ const UnauthorizedError = require('../errors/unauthorized-error');
 const { messages } = require('../errors/messages');
 
 // const { JWT_SECRET = 'some-secret-key' } = process.env;
-const { NODE_ENV, JWT_SECRET } = process.env;
+const {
+  NODE_ENV,
+  JWT_SECRET,
+} = process.env;
 const { JWT_SECRET_DEV } = require('./config');
 
 const auth = async (req, res, next) => {

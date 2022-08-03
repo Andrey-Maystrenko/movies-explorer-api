@@ -17,7 +17,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   year: {
-    type: String,
+    type: Number,
     required: true,
   },
   description: {
@@ -26,8 +26,8 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
-    validate: (v) => validator.isURL(v),
+    // required: true,
+    // validate: (v) => validator.isURL(v),
   },
   trailerLink: {
     type: String,
@@ -48,12 +48,6 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-
-  // movieId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'movie',
-  //   required: true,
-  // },
 
   nameRU: {
     type: String,
